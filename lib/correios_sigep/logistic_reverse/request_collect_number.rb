@@ -17,6 +17,7 @@ module CorreiosSigep
       def process_response response
         response_xml = response.to_xml.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
         response_doc = Nokogiri::XML.parse(response_xml)
+        binding.pry
         code = response_doc.search('//cod-erro | //cod_erro').text.to_i rescue nil
         handle_errors code, response_doc
       end

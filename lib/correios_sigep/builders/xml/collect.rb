@@ -8,7 +8,7 @@ module CorreiosSigep
         end
 
         def build_xml
-          @builder.coletas_solicitadas do
+          res = @builder.coletas_solicitadas do
             @builder.tipo              @collect.type
             @builder.id_cliente        @collect.client_id
             @builder.valor_declarado   @collect.declared_value
@@ -22,9 +22,15 @@ module CorreiosSigep
             XML::Sender.new(@builder, @collect.sender).build_xml
             XML::Product.new(@builder, @collect.product).build_xml
             @builder.obj_col do
-              XML::CollectObjects.new(@builder, @collect.objects).build_xml
+              @builder.description @collect.objects.first.description
+              @builder.id @collect.objects.first.id
+              @builder.item  @collect.objects.first.item
+              @builder.ship  @collect.objects.first.ship
+              #XML::CollectObjects.new(@builder, @collect.objects).build_xml
             end
           end
+
+          res
         end
 
       end
