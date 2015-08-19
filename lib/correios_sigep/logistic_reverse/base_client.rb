@@ -2,7 +2,7 @@ module CorreiosSigep
   module LogisticReverse
     class BaseClient
       def initialize
-        @client = Savon.client(wsdl: wsdl, log: true, logger: Rails.logger)
+        @client = Savon.client(wsdl: wsdl, log: true, logger: Rails.logger, open_timeout: 12, read_timeout: 12, pretty_print_xml: true, log_level: :debug, filters: [:cod_administrativo, :contrato, :codigo_servico, :cartao])
       end
 
       def wsdl
