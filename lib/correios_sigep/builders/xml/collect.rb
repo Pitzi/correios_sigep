@@ -22,10 +22,10 @@ module CorreiosSigep
             XML::Sender.new(@builder, @collect.sender).build_xml
             XML::Product.new(@builder, @collect.product).build_xml
             @builder.obj_col do
-              @builder.description @collect.objects.first.description
-              @builder.id @collect.objects.first.id
+              @builder.desc @collect.objects.first.description
+              @builder.num @collect.objects.first.id
               @builder.item  @collect.objects.first.item
-              @builder.ship  @collect.objects.first.ship
+              @builder.entrega  @collect.objects.first.ship
             end
           end
 

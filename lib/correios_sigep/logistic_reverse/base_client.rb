@@ -2,14 +2,14 @@ module CorreiosSigep
   module LogisticReverse
     class BaseClient
       def initialize
-        @client = Savon.client(wsdl: wsdl, log: true, logger: Rails.logger, open_timeout: 12, read_timeout: 12, pretty_print_xml: true, log_level: :info, filters: [:cod_administrativo, :contrato, :codigo_servico, :cartao])
+        @client = Savon.client(headers: { 'SOAPAction' => ''}, basic_auth: [CorreiosSigep.configuration.basic_auth_user, CorreiosSigep.configuration.basic_auth_password], wsdl: wsdl, log: true, logger: Rails.logger, open_timeout: 12, read_timeout: 12, pretty_print_xml: true, log_level: :debug, filters: [:cod_administrativo, :contrato, :codigo_servico, :cartao])
       end
 
       def wsdl
         @wsdl ||= if ENV['GEM_ENV'] == 'test'
-                    'http://webservicescolhomologacao.correios.com.br/ScolWeb/WebServiceScol?wsdl'
+                    'https://apphom.correios.com.br/logisticaReversaWS/logisticaReversaService/logisticaReversaWS?wsdl'
                   else
-                    'http://webservicescol.correios.com.br/ScolWeb/WebServiceScol?wsdl'
+                    'https://cws.correios.com.br/logisticaReversaWS/logisticaReversaService/logisticaReversaWS?wsdl'
                   end
       end
 
