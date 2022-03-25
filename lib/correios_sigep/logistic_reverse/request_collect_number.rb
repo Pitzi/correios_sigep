@@ -17,7 +17,15 @@ module CorreiosSigep
       def process_response response
         response_xml = response.to_xml.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
         response_doc = Nokogiri::XML.parse(response_xml)
+        puts "xml = " + response_xml
         code = response_doc.search('//cod-erro | //cod_erro').text.to_i rescue nil
+        result_error_code = response_doc.search('//codigo-erro | //codigo_erro').text.to_i rescue nil
+        puts "response = " + response_doc
+
+        if code == 0 && result_error_code != 0 # verify success on transaction and response
+          code = result_error_code
+        end
+
         handle_errors code, response_doc
       end
 
@@ -46,6 +54,8 @@ module CorreiosSigep
         when Models::CorreiosResponseCodes::COLLECT_NOT_ANSWERED_FOR_THE_ZIPCODE
           raise Models::Errors::CollectNotAnsweredForTheZipcode
 
+        when Models::CorreiosResponseCodes::UNAVAILABLE_SERVICE_FOR_SECTION
+          raise Models::Errors::UnavailableService
         else
           error_message = response_doc.search("msg_erro").text
           raise Models::Errors::UnknownError.new error_message
