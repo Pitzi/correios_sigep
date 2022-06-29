@@ -11,7 +11,7 @@ module CorreiosSigep
         @address          = options[:address]
         @city             = options[:city]
         @complement       = options[:complement]
-        @email            = options[:email]
+        @email            = options[:email] if options[:email]
         @identification   = options[:identification]
         @mobile_area_code = options[:mobile_area_code]
         @mobile_phone     = options[:mobile_phone]

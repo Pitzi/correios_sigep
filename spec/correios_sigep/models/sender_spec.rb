@@ -7,7 +7,7 @@ module CorreiosSigep
       it { should respond_to :area_code }
       it { should respond_to :city }
       it { should respond_to :complement }
-      it { should respond_to :email }
+      # it { should respond_to :email }
       it { should respond_to :identification }
       it { should respond_to :mobile_area_code }
       it { should respond_to :mobile_phone }
